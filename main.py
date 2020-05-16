@@ -5,6 +5,7 @@ import replit
 import socket
 import requests
 import colorama
+import platform
 import webbrowser
 import urllib.error
 import urllib.parse
@@ -20,6 +21,13 @@ from termcolor import colored
 from requests.exceptions import ConnectionError
 
 colorama.init()
+os.system('color')
+colors = ["red", "yellow"]
+txt = open("./stuff/splashes", "r")
+
+splashes = txt.read().split("![{BREAK}]")
+splash = randint(1, len(splashes)) - 1
+current = "main"
 
 global proxyList
 
@@ -188,11 +196,6 @@ def scrape(location, simp):
         main()
 
 def init():
-    colors = ["red", "yellow"]
-    f = open("./stuff/splashes", "r")
-
-    splashes = f.read().split("![{BREAK}]")
-    splash = randint(1, len(splashes)) - 1
     replit.clear()
     print("\n")
     print(colored(splashes[splash], colors[splash]))
@@ -213,11 +216,102 @@ def init():
     print("\n")
     print(colored("         ImKindaToxic was developed by 316tb (r-S0316)         ", "cyan", attrs=["bold"]))
     print("\n")
-    print(colored("             Visit https://www.316tb.net/ for more             ", "cyan", attrs=["bold"]))
+    print(colored("             Visit https://www.316tb.net/ for more             \n", "cyan", attrs=["bold"]))
+
+def loadMenu(menuName):
+    init()
+
+    global current
+
+    if (menuName == "main"):
+        current = "main"
+
+        print("\n Select an option from the menu: ")
+        print("\n     1) Attack Menu")
+        print("     2) Defense Menu")
+        print("     3) Sniffing Menu")
+        print("     4) Config")
+        print("\n     99) Exit")
+        print("\n")
+
+    elif (menuName == "attacks"):
+        current = "attacks"
+
+        print("\n Select an option from the menu: ")
+        print("\n     1) " + colored("Denial Of Service (", "green") + colored("DoS", "yellow") + colored(")", "green"))
+        print("     2) " + colored("Distributed Denial Of Service (", "green") + colored("DDoS", "yellow") + colored(")", "green"))
+        print("     3) " + colored("Backdoor Payload (", "green") + colored("RAT", "yellow") + colored(")", "green"))
+        print("     4) Generic Payloads")
+        print("     5) Main Menu")
+        print("\n     99) Exit")
+        print("\n")
+
+    elif (menuName == "defenses"):
+        current = "defenses"
+
+        print("\n Select an option from the menu: ")
+        print("\n     1) " + colored("Scramble IP (", "green") + colored("Tor", "yellow") + colored(")", "green"))
+        print("     2) " + colored("Hide IP (", "green") + colored("Proxy", "yellow") + colored(")", "green"))
+        print("     3) " + colored("Change IP (", "green") + colored("LAN", "yellow") + colored(")", "green"))
+        print("     4) Edit Proxy List")
+        print("     5) Main Menu")
+        print("\n     99) Exit")
+        print("\n")
+
+    elif (menuName == "sniffing"):
+        current = "sniffing"
+
+        print("\n Select an option from the menu: ")
+        print("\n     1) " + colored("Web Spider (", "green") + colored("bs4", "yellow") + colored(")", "green"))
+        print("     2) " + colored("Network Discovery (", "green") + colored("LAN", "yellow") + colored(")", "green"))
+        print("     3) " + colored("WhoIs (", "green") + colored("WhoIs", "yellow") + colored(")", "green"))
+        print("     4) " + colored("NsLookup (", "green") + colored("NsLookup", "yellow") + colored(")", "green"))
+        print("     5) " + colored("Search (", "green") + colored("DuckDuckGo", "yellow") + colored(")", "green"))
+        print("     6) Edit Proxy List")
+        print("     7) Main Menu")
+        print("\n     99) Exit")
+        print("\n")
 
 def main():
-    init()
-    print(" Select an option from the menu: ")
-    print("\n     1) Denial Of Service Attack (DoS)")
+    task = int(input(colored("IKTe", "green", attrs=["underline"]) + "> "))
 
+    if (task == 1 and current == "main"):
+        loadMenu("attacks")
+        task = int(input(colored("IKTe", "green", attrs=["underline"]) + "> "))
+
+    elif (task == 2 and current == "main"):
+        loadMenu("defenses")
+        task = int(input(colored("IKTe", "green", attrs=["underline"]) + "> "))
+    
+    elif (task == 3 and current == "main"):
+        loadMenu("sniffing")
+        task = int(input(colored("IKTe", "green", attrs=["underline"]) + "> "))
+    
+    elif (task == 4 and current == "main"):
+        loadMenu("config")
+        task = int(input(colored("IKTe", "green", attrs=["underline"]) + "> "))
+
+    #-- Attacks Menu --#
+
+    elif (task == 1 and current == "attacks"):
+        return
+
+    elif (task == 2 and current == "attacks"):
+        return
+
+    elif (task == 3 and current == "attacks"):
+        return
+
+    elif (task == 4 and current == "attacks"):
+        loadMenu("payloads")
+        task = int(input(colored("IKTe", "green", attrs=["underline"]) + "> "))
+
+    elif (task == 5 and current == "attacks"):
+        loadMenu("main")
+        task = int(input(colored("IKTe", "green", attrs=["underline"]) + "> "))
+
+    elif (task == 99):
+        exit()
+
+loadMenu("main")
 main()
