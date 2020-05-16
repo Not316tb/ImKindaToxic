@@ -7,6 +7,7 @@ import requests
 import colorama
 import platform
 import webbrowser
+import pythonping
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -28,10 +29,11 @@ txt = open("./stuff/splashes", "r")
 splashes = txt.read().split("![{BREAK}]")
 splash = randint(1, len(splashes)) - 1
 current = "main"
+task = None
 
 global proxyList
-
-proxyList = {}
+socksList = open("./stuff/socks4.txt", "r")
+proxyList = socksList.read().splitlines()
 
 typing_speed = 0.05
 
@@ -59,6 +61,7 @@ def proxy(pType, url):
     global proxyList
 
     print("\nPinging server...")
+
     try:
         requests.get("https://www.google.com", proxies={pType: url})
         print(colored("Success!\n", "green"))
@@ -273,23 +276,24 @@ def loadMenu(menuName):
         print("\n")
 
 def main():
+    global task
     task = int(input(colored("IKTe", "green", attrs=["underline"]) + "> "))
 
     if (task == 1 and current == "main"):
         loadMenu("attacks")
-        task = int(input(colored("IKTe", "green", attrs=["underline"]) + "> "))
+        main()
 
     elif (task == 2 and current == "main"):
         loadMenu("defenses")
-        task = int(input(colored("IKTe", "green", attrs=["underline"]) + "> "))
+        main()
     
     elif (task == 3 and current == "main"):
         loadMenu("sniffing")
-        task = int(input(colored("IKTe", "green", attrs=["underline"]) + "> "))
+        main()
     
     elif (task == 4 and current == "main"):
         loadMenu("config")
-        task = int(input(colored("IKTe", "green", attrs=["underline"]) + "> "))
+        main()
 
     #-- Attacks Menu --#
 
@@ -304,11 +308,32 @@ def main():
 
     elif (task == 4 and current == "attacks"):
         loadMenu("payloads")
-        task = int(input(colored("IKTe", "green", attrs=["underline"]) + "> "))
+        main()
 
     elif (task == 5 and current == "attacks"):
         loadMenu("main")
-        task = int(input(colored("IKTe", "green", attrs=["underline"]) + "> "))
+        main()
+
+    #-- Defenses Menu
+
+    elif (task == 1 and current == "defenses"):
+        return
+
+    elif (task == 2 and current == "defenses"):
+        return
+
+    elif (task == 3 and current == "defenses"):
+        return
+
+    elif (task == 4 and current == "defenses"):
+        loadMenu("payloads")
+        main()
+
+    elif (task == 5 and current == "defenses"):
+        loadMenu("main")
+        main()
+
+    #-- Exit --#
 
     elif (task == 99):
         exit()

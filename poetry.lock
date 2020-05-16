@@ -30,6 +30,14 @@ version = "0.4.3"
 
 [[package]]
 category = "main"
+description = "A simple way to ping in Python"
+name = "pythonping"
+optional = false
+python-versions = "*"
+version = "1.0.10"
+
+[[package]]
+category = "main"
 description = "A package for repl.it that allows you to clear the console and play audio."
 name = "replit"
 optional = false
@@ -53,13 +61,14 @@ python-versions = "*"
 version = "1.1.0"
 
 [metadata]
-content-hash = "e949cb259c7bdee63f146d1f05fc6c7463763ea54419ca6ad33c75f2dcc9acd8"
-python-versions = "^3.8"
+content-hash = "7aa4f8329f17410c10c7346e6144b22c99512606eb38555625e6ff46c243210e"
+python-versions = "^3.7"
 
 [metadata.hashes]
 beautifulsoup4 = ["594ca51a10d2b3443cbac41214e12dbb2a1cd57e1a7344659849e2e20ba6a8d8", "a4bbe77fd30670455c5296242967a123ec28c37e9702a8a81bd2f20a4baf0368", "d4e96ac9b0c3a6d3f0caae2e4124e6055c5dcafde8e2f831ff194c104f0775a0"]
 bs4 = ["36ecea1fd7cc5c0c6e4a1ff075df26d50da647b75376626cc186e2212886dd3a"]
 colorama = ["7d73d2a99753107a36ac6b455ee49046802e59d9d076ef8e47b61499fa29afff", "e96da0d330793e2cb9485e9ddfd918d456036c7149416295932478192f4436a1"]
+pythonping = ["0191d50b63dc97429328c80f540db3701716f1021d69cd358801d2787a12265e"]
 replit = ["99fee9325d0ddb57d49316be682679caeeced684e5f85dcc094892feda149139"]
 soupsieve = ["bdb0d917b03a1369ce964056fc195cfdff8819c40de04695a80bc813c3cfa1f5", "e2c1c5dee4a1c36bcb790e0fabd5492d874b8ebd4617622c4f6a731701060dda"]
 termcolor = ["1d6d69ce66211143803fbc56652b41d73b4a400a2891d7bf7a1cdf4c02de613b"]
