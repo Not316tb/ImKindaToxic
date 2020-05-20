@@ -7,7 +7,6 @@ import requests
 import colorama
 import platform
 import webbrowser
-import pythonping
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -254,8 +253,8 @@ def loadMenu(menuName):
     elif (menuName == "defenses"):
         current = "defenses"
 
-        print("\n Select an option from the menu: ")
-        print("\n     1) " + colored("Scramble IP (", "cyan") + colored("Tor", "yellow") + colored(")", "cyan"))
+        print(colored("\n Select an option from the menu: ", "blue"))
+        print(colored("\n     1) ", "blue") + colored("Scramble IP (", "cyan") + colored("Tor", "yellow") + colored(")", "cyan"))
         print(colored("     2) ", "blue") + colored("Hide IP (", "cyan") + colored("Proxy", "yellow") + colored(")", "cyan"))
         print(colored("     3) ", "blue") + colored("Change IP (", "cyan") + colored("LAN", "yellow") + colored(")", "cyan"))
         print(colored("     4) Edit Proxy List", "blue"))
@@ -281,7 +280,7 @@ def main():
     global task
     global current
 
-    print(colored(" ┌─[ ", "blue") + colored("ImKindaToxic", "red") + colored(" ]──[", "blue") + colored("~", "red") + colored("]─[", "blue") + colored(current, "yellow") + colored(']', "blue"))
+    print(colored(" ┌─[ ", "blue") + colored("ImKindaToxic", "red", attrs=["bold"]) + colored(" ]──[", "blue") + colored("~", "red", attrs=["bold"]) + colored("]─[", "blue") + colored(current, "yellow", attrs=["bold"]) + colored(']', "blue"))
 
     task = int(input(colored(" └─────► ", "blue")))
 
@@ -320,7 +319,7 @@ def main():
         loadMenu("main")
         main()
 
-    #-- Defenses Menu
+    #-- Defenses Menu --#
 
     elif (task == 1 and current == "defenses"):
         return
@@ -336,6 +335,30 @@ def main():
         main()
 
     elif (task == 5 and current == "defenses"):
+        loadMenu("main")
+        main()
+
+    #-- Sniffing Menu --#
+
+    elif (task == 1 and current == "sniffing"):
+        return
+
+    elif (task == 2 and current == "sniffing"):
+        return
+
+    elif (task == 3 and current == "sniffing"):
+        return
+
+    elif (task == 4 and current == "sniffing"):
+        return
+
+    elif (task == 5 and current == "sniffing"):
+        return
+
+    elif (task == 6 and current == "sniffing"):
+        return
+
+    elif (task == 7 and current == "sniffing"):
         loadMenu("main")
         main()
 

