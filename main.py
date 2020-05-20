@@ -26,6 +26,8 @@ os.system('color')
 colors = ["red", "yellow"]
 txt = open("./stuff/splashes", "r")
 
+version = "1.4.3"
+
 splashes = txt.read().split("![{BREAK}]")
 splash = randint(1, len(splashes)) - 1
 current = "main"
@@ -206,7 +208,7 @@ def init():
     print("\n")
     print(colored("[---]             ImKindaToxic Exploit (", "blue") + colored("IKTe", "yellow") + colored(")             [---]", "blue"))
     print(colored("[---]         Created by: Ronnie Sarrett  (", "blue") + colored("316tb", "yellow") + colored(")         [---]", "blue"))
-    print(colored("                    Version: ", "blue") + colored("0.0.1", "red") + colored(" (", "blue") + colored("STABLE", "yellow") + colored(")", "blue")                    )
+    print(colored("                    Version: ", "blue") + colored(version, "red") + colored(" (", "blue") + colored("STABLE", "yellow") + colored(")", "blue")                    )
     print(colored("                       Codename: '", "blue") + colored("Agave", "yellow") + colored("'", "blue")                       )
     print(colored("[---]                   GitHub: ", "blue") + colored("r-S0316", "magenta") + colored("                   [---]", "blue"))
     print(colored("[---]             Discord: ", "blue") + colored("TheLonelyShoe#1727", "magenta") + colored("             [---]", "blue"))
@@ -229,55 +231,59 @@ def loadMenu(menuName):
     if (menuName == "main"):
         current = "main"
 
-        print("\n Select an option from the menu: ")
-        print("\n     1) Attack Menu")
-        print("     2) Defense Menu")
-        print("     3) Sniffing Menu")
-        print("     4) Config")
-        print("\n     99) Exit")
+        print(colored("\n Select an option from the menu: ", "blue"))
+        print(colored("\n     1) Attack Menu", "blue"))
+        print(colored("     2) Defense Menu", "blue"))
+        print(colored("     3) Sniffing Menu", "blue"))
+        print(colored("     4) Config", "blue"))
+        print(colored("\n     99) Exit", "blue"))
         print("\n")
 
     elif (menuName == "attacks"):
         current = "attacks"
 
-        print("\n Select an option from the menu: ")
-        print("\n     1) " + colored("Denial Of Service (", "green") + colored("DoS", "yellow") + colored(")", "green"))
-        print("     2) " + colored("Distributed Denial Of Service (", "green") + colored("DDoS", "yellow") + colored(")", "green"))
-        print("     3) " + colored("Backdoor Payload (", "green") + colored("RAT", "yellow") + colored(")", "green"))
-        print("     4) Generic Payloads")
-        print("     5) Main Menu")
-        print("\n     99) Exit")
+        print(colored("\n Select an option from the menu: ", "blue"))
+        print(colored("\n     1) ", "blue") + colored("Denial Of Service (", "cyan") + colored("DoS", "yellow") + colored(")", "cyan"))
+        print(colored("     2) ", "blue") + colored("Distributed Denial Of Service (", "cyan") + colored("DDoS", "yellow") + colored(")", "cyan"))
+        print(colored("     3) ", "blue") + colored("Backdoor Payload (", "cyan") + colored("RAT", "yellow") + colored(")", "cyan"))
+        print(colored("     4) Generic Payloads", "blue"))
+        print(colored("     5) Main Menu", "blue"))
+        print(colored("\n     99) Exit", "blue"))
         print("\n")
 
     elif (menuName == "defenses"):
         current = "defenses"
 
         print("\n Select an option from the menu: ")
-        print("\n     1) " + colored("Scramble IP (", "green") + colored("Tor", "yellow") + colored(")", "green"))
-        print("     2) " + colored("Hide IP (", "green") + colored("Proxy", "yellow") + colored(")", "green"))
-        print("     3) " + colored("Change IP (", "green") + colored("LAN", "yellow") + colored(")", "green"))
-        print("     4) Edit Proxy List")
-        print("     5) Main Menu")
-        print("\n     99) Exit")
+        print("\n     1) " + colored("Scramble IP (", "cyan") + colored("Tor", "yellow") + colored(")", "cyan"))
+        print(colored("     2) ", "blue") + colored("Hide IP (", "cyan") + colored("Proxy", "yellow") + colored(")", "cyan"))
+        print(colored("     3) ", "blue") + colored("Change IP (", "cyan") + colored("LAN", "yellow") + colored(")", "cyan"))
+        print(colored("     4) Edit Proxy List", "blue"))
+        print(colored("     5) Main Menu", "blue"))
+        print(colored("\n     99) Exit", "blue"))
         print("\n")
 
     elif (menuName == "sniffing"):
         current = "sniffing"
 
-        print("\n Select an option from the menu: ")
-        print("\n     1) " + colored("Web Spider (", "green") + colored("bs4", "yellow") + colored(")", "green"))
-        print("     2) " + colored("Network Discovery (", "green") + colored("LAN", "yellow") + colored(")", "green"))
-        print("     3) " + colored("WhoIs (", "green") + colored("WhoIs", "yellow") + colored(")", "green"))
-        print("     4) " + colored("NsLookup (", "green") + colored("NsLookup", "yellow") + colored(")", "green"))
-        print("     5) " + colored("Search (", "green") + colored("DuckDuckGo", "yellow") + colored(")", "green"))
-        print("     6) Edit Proxy List")
-        print("     7) Main Menu")
-        print("\n     99) Exit")
+        print(colored("\n Select an option from the menu: ", "blue"))
+        print(colored("\n     1) ", "blue") + colored("Web Spider (", "cyan") + colored("bs4", "yellow") + colored(")", "cyan"))
+        print(colored("     2) ", "blue") + colored("Network Discovery (", "cyan") + colored("LAN", "yellow") + colored(")", "cyan"))
+        print(colored("     3) ", "blue") + colored("WhoIs (", "cyan") + colored("WhoIs", "yellow") + colored(")", "cyan"))
+        print(colored("     4) ", "blue") + colored("NsLookup (", "cyan") + colored("NsLookup", "yellow") + colored(")", "cyan"))
+        print(colored("     5) ", "blue") + colored("Search (", "cyan") + colored("DuckDuckGo", "yellow") + colored(")", "cyan"))
+        print(colored("     6) Edit Proxy List", "blue"))
+        print(colored("     7) Main Menu", "blue"))
+        print(colored("\n     99) Exit", "blue"))
         print("\n")
 
 def main():
     global task
-    task = int(input(colored("IKTe", "green", attrs=["underline"]) + "> "))
+    global current
+
+    print(colored(" ┌─[ ", "blue") + colored("ImKindaToxic", "red") + colored(" ]──[", "blue") + colored("~", "red") + colored("]─[", "blue") + colored(current, "yellow") + colored(']', "blue"))
+
+    task = int(input(colored(" └─────► ", "blue")))
 
     if (task == 1 and current == "main"):
         loadMenu("attacks")
