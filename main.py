@@ -183,7 +183,7 @@ def scrape(location, simp):
     if simp == "simp":
         print(colored('Title: ', "cyan"), colored('%s' % title, "white"))
         if description is None:
-            print(colored('Description: ', "blue"), colored('N/A', "white"))
+            print(colored('Description: ', "blue"), colored('Failed', "white"))
         elif description is not None:
             print(colored('Description: ', "blue"), colored(
                 '%s' % description["content"], "white"))
@@ -201,36 +201,139 @@ def scrape(location, simp):
         main()
 
 def geolookup(addr):
-    request = json.loads(requests.get("https://tools.keycdn.com/geo.json?host=69.14.220.130").content)
-    returnData = request["data"]["geo"]
 
-    print (colored("Returned Geo-Data for host ", "white") + colored(returnData["host"], "cyan") + colored(".", "white"))
+    replit.clear()
+
+    request = json.loads(requests.get("https://tools.keycdn.com/geo.json?host=" + addr).content)
+
+    if (request["description"] == "Hostname did not resolve any IP."):
+        replit.clear()
+        print(colored("Please enter a valid IP Address.", "red"))
+        time.sleep(2.25)
+        iplookup(addr)
+
+    returnData = request["data"]["geo"]
+    dataColors = {"city": "green", "postal_code": "green","metro_code": "green","region": "green","country": "green","continent": "green","timezone": "green","asn": "green","isp": "green","dns": "green", "latitude": "blue","longitude": "cyan"}
+
+    if (not returnData["postal_code"]):
+        returnData["postal_code"] = "Failed"
+        dataColors["postal_code"] = "red"
+
+    if (not returnData["metro_code"]):
+        returnData["metro_code"] = "Failed"
+        dataColors["metro_code"] = "red"
+
+    if (not returnData["region_name"]):
+        returnData["region_name"] = "Failed"
+        returnData["region_code"] = ""
+        dataColors["region"] = "red"
+
+    if (not returnData["country_name"]):
+        returnData["country_name"] = "Failed"
+        returnData["country_code"] = ""
+        dataColors["country"] = "red"
+
+    if (not returnData["continent_name"]):
+        returnData["continent_name"] = "Failed"
+        returnData["continent_code"] = ""
+        dataColors["continent"] = "red"
+
+    if (not returnData["timezone"]):
+        returnData["timezone"] = "Failed"
+        dataColors["timezone"] = "red"
+
+    if (not returnData["latitude"]):
+        returnData["latitude"] = "Failed"
+        returnData["longitude"] = "Failed"
+        dataColors["latitude"] = "red"
+        dataColors["longitude"] = "red"
+
+    if (not returnData["asn"]):
+        returnData["asn"] = "Failed"
+        dataColors["asn"] = "red"
+
+    if (not returnData["isp"]):
+        returnData["isp"] = "Failed"
+        dataColors["isp"] = "red"
+
+    if (not returnData["rdns"]):
+        returnData["rdns"] = "Failed"
+        dataColors["dns"] = "red"
+    
+
+    print (colored("\nReturned Geo-Data for host ", "white") + colored(returnData["host"], "cyan") + colored(".", "white"))
     print ()
     print ("===================[I.K.T]===================")
-    print (colored("City: ", "white") + colored(returnData["city"], "green"))
-    print (colored("Zip Code: ", "white") + colored(returnData["postal_code"], "green"))
-    print (colored("Metro Code: ", "white") + colored(returnData["metro_code"], "green"))
-    print (colored("Providence: ", "white") + colored(returnData["region_name"] + " (" + returnData["region_code"] + ") ", "green"))
-    print (colored("Country: ", "white") + colored(returnData["country_name"] + " (" + returnData["country_code"] + ") ", "green"))
-    print (colored("Continent: ", "white") + colored(returnData["continent_name"] + " (" + returnData["continent_code"] + ") ", "green"))
-    print (colored("Time-Zone: ", "white") + colored(returnData["timezone"].replace("_", " "), "green"))
-    print (colored("Coordinates: ", "white") + colored(returnData["latitude"], "blue") + colored(",", "white") + colored(returnData["longitude"], "cyan"))
+    print (colored("City: ", "white") + colored(returnData["city"], dataColors["city"]))
+    print (colored("Zip Code: ", "white") + colored(returnData["postal_code"], dataColors["postal_code"]))
+    print (colored("Metro Code: ", "white") + colored(returnData["metro_code"], dataColors["metro_code"]))
+    print (colored("Providence: ", "white") + colored(returnData["region_name"] + " (" + returnData["region_code"] + ") ", dataColors["region"]))
+    print (colored("Country: ", "white") + colored(returnData["country_name"] + " (" + returnData["country_code"] + ") ", dataColors["country"]))
+    print (colored("Continent: ", "white") + colored(returnData["continent_name"] + " (" + returnData["continent_code"] + ") ", dataColors["continent"]))
+    print (colored("Time-Zone: ", "white") + colored(returnData["timezone"].replace("_", " "), dataColors["timezone"]))
+    print (colored("Coordinates: ", "white") + colored(returnData["latitude"], dataColors["latitude"]) + colored(",", "white") + colored(returnData["longitude"], dataColors["longitude"]))
     print ("====================[316]====================")
     print ()
     print (colored("Returned Misc Data for host ", "white") + colored(returnData["host"], "cyan") + colored(".", "white"))
     print ()
     print ("===================[I.K.T]===================")
-    print (colored("ASN: ", "white") + colored(returnData["asn"], "green"))
-    print (colored("ISP: ", "white") + colored(returnData["isp"], "green"))
-    print (colored("DNS: ", "white") + colored(returnData["rdns"], "green"))
+    print (colored("ASN: ", "white") + colored(returnData["asn"], dataColors["asn"]))
+    print (colored("ISP: ", "white") + colored(returnData["isp"], dataColors["isp"]))
+    print (colored("DNS: ", "white") + colored(returnData["rdns"], dataColors["dns"]))
     print ("====================[316]====================")
 
-def iplookup():
-    init()
-    
-    print(colored(" ┌─[ ", "blue") + colored("ImKindaToxic", "red", attrs=["bold"]) + colored(" ]──[", "blue") + colored("~", "red", attrs=["bold"]) + colored("]─[", "blue") + colored(current, "yellow", attrs=["bold"]) + colored(']', "blue"))
+    input ("\nPress enter to continue.")
 
-    task = int(input(colored(" └─────► ", "blue")))
+    iplookup(addr)
+
+def iplookup(addr):
+
+    init()
+
+    print(colored("\n Parameters ", "blue"))
+    print(colored("\n     1) IP Address: ", "blue") + colored(addr, "yellow"))
+
+    print(colored("\n     97) Execute", "blue"))
+    print(colored("     98) Cancel", "blue"))
+    print(colored("     99) Exit", "blue"))
+    print("\n")
+
+    print(colored(" ┌─[ ", "blue") + colored("ImKindaToxic", "red", attrs=["bold"]) + colored(" ]──[", "blue") + colored("~", "red", attrs=["bold"]) + colored("]─[", "blue") + colored("IP Lookup", "yellow", attrs=["bold"]) + colored(']', "blue"))
+
+    param = int(input(colored(" └─────► ", "blue")))
+
+    if (param == 1):
+        init()
+    
+        print(colored("\n Parameters ", "blue"))
+        print(colored("\n     1) IP Address: ", "blue") + colored(addr, "yellow") + colored("[ ", "blue") + colored("SELECTED", "cyan") + colored(" ]", "blue"))
+        print(colored("\n     97) Execute", "grey"))
+        print(colored("     98) Cancel", "grey"))
+        print(colored("     99) Exit", "grey"))
+        print("\n")
+
+        print(colored(" ┌─[ ", "blue") + colored("ImKindaToxic", "red", attrs=["bold"]) + colored(" ]──[", "blue") + colored("~", "red", attrs=["bold"]) + colored("]─[", "blue") + colored("IP Address", "yellow", attrs=["bold"]) + colored(']', "blue"))
+
+        param = str(input(colored(" └─────► ", "blue")))
+
+        iplookup(param)
+    
+    elif (param == 97):
+        if (addr == ""):
+            replit.clear()
+            print(colored("IP Address cannot be null.", "red"))
+            time.sleep(2.25)
+            iplookup("")
+        
+        else:
+            geolookup(addr)
+
+    elif (param == 98):
+        loadMenu("sniffing")
+        main()
+    
+    elif (param == 99):
+        exit()
 
 def init():
     replit.clear()
@@ -333,6 +436,10 @@ def main():
     elif (task == 4 and current == "main"):
         loadMenu("config")
         main()
+    
+    elif (task > 4 and task < 99 and current == "main"):
+        loadMenu(current)
+        main()
 
     #-- Attacks Menu --#
 
@@ -353,6 +460,10 @@ def main():
         loadMenu("main")
         main()
 
+    elif (task > 5 and task < 99 and current == "attacks"):
+        loadMenu(current)
+        main()
+
     #-- Defenses Menu --#
 
     elif (task == 1 and current == "defenses"):
@@ -370,6 +481,10 @@ def main():
 
     elif (task == 5 and current == "defenses"):
         loadMenu("main")
+        main()
+    
+    elif (task > 5 and task < 99 and current == "defenses"):
+        loadMenu(current)
         main()
 
     #-- Sniffing Menu --#
@@ -390,7 +505,7 @@ def main():
         return
 
     elif (task == 6 and current == "sniffing"):
-        iplookup()
+        iplookup("")
         return
     
     elif (task == 7 and current == "sniffing"):
@@ -398,6 +513,10 @@ def main():
 
     elif (task == 8 and current == "sniffing"):
         loadMenu("main")
+        main()
+
+    elif (task > 4 and task < 99 and current == "sniffing"):
+        loadMenu(current)
         main()
 
     #-- Exit --#
