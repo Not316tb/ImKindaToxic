@@ -14,6 +14,7 @@ import urllib.response
 import urllib.robotparser
 import sys
 import time
+import json
 import random
 from random import randint
 from bs4 import BeautifulSoup
@@ -199,6 +200,38 @@ def scrape(location, simp):
         print()
         main()
 
+def geolookup(addr):
+    request = json.loads(requests.get("https://tools.keycdn.com/geo.json?host=69.14.220.130").content)
+    returnData = request["data"]["geo"]
+
+    print (colored("Returned Geo-Data for host ", "white") + colored(returnData["host"], "cyan") + colored(".", "white"))
+    print ()
+    print ("===================[I.K.T]===================")
+    print (colored("City: ", "white") + colored(returnData["city"], "green"))
+    print (colored("Zip Code: ", "white") + colored(returnData["postal_code"], "green"))
+    print (colored("Metro Code: ", "white") + colored(returnData["metro_code"], "green"))
+    print (colored("Providence: ", "white") + colored(returnData["region_name"] + " (" + returnData["region_code"] + ") ", "green"))
+    print (colored("Country: ", "white") + colored(returnData["country_name"] + " (" + returnData["country_code"] + ") ", "green"))
+    print (colored("Continent: ", "white") + colored(returnData["continent_name"] + " (" + returnData["continent_code"] + ") ", "green"))
+    print (colored("Time-Zone: ", "white") + colored(returnData["timezone"].replace("_", " "), "green"))
+    print (colored("Coordinates: ", "white") + colored(returnData["latitude"], "blue") + colored(",", "white") + colored(returnData["longitude"], "cyan"))
+    print ("====================[316]====================")
+    print ()
+    print (colored("Returned Misc Data for host ", "white") + colored(returnData["host"], "cyan") + colored(".", "white"))
+    print ()
+    print ("===================[I.K.T]===================")
+    print (colored("ASN: ", "white") + colored(returnData["asn"], "green"))
+    print (colored("ISP: ", "white") + colored(returnData["isp"], "green"))
+    print (colored("DNS: ", "white") + colored(returnData["rdns"], "green"))
+    print ("====================[316]====================")
+
+def iplookup():
+    init()
+    
+    print(colored(" ┌─[ ", "blue") + colored("ImKindaToxic", "red", attrs=["bold"]) + colored(" ]──[", "blue") + colored("~", "red", attrs=["bold"]) + colored("]─[", "blue") + colored(current, "yellow", attrs=["bold"]) + colored(']', "blue"))
+
+    task = int(input(colored(" └─────► ", "blue")))
+
 def init():
     replit.clear()
     print("\n")
@@ -271,8 +304,9 @@ def loadMenu(menuName):
         print(colored("     3) ", "blue") + colored("WhoIs (", "cyan") + colored("WhoIs", "yellow") + colored(")", "cyan"))
         print(colored("     4) ", "blue") + colored("NsLookup (", "cyan") + colored("NsLookup", "yellow") + colored(")", "cyan"))
         print(colored("     5) ", "blue") + colored("Search (", "cyan") + colored("DuckDuckGo", "yellow") + colored(")", "cyan"))
-        print(colored("     6) Edit Proxy List", "blue"))
-        print(colored("     7) Main Menu", "blue"))
+        print(colored("     6) ", "blue") + colored("Ip-Lookup (", "cyan") + colored("GEO", "yellow") + colored(")", "cyan"))
+        print(colored("     7) Edit Proxy List", "blue"))
+        print(colored("     8) Main Menu", "blue"))
         print(colored("\n     99) Exit", "blue"))
         print("\n")
 
@@ -356,9 +390,13 @@ def main():
         return
 
     elif (task == 6 and current == "sniffing"):
+        iplookup()
+        return
+    
+    elif (task == 7 and current == "sniffing"):
         return
 
-    elif (task == 7 and current == "sniffing"):
+    elif (task == 8 and current == "sniffing"):
         loadMenu("main")
         main()
 
