@@ -7,6 +7,7 @@ import requests
 import colorama
 import platform
 import webbrowser
+import subprocess
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -17,6 +18,7 @@ import time
 import json
 import random
 from random import randint
+from subprocess import call
 from bs4 import BeautifulSoup
 from termcolor import colored
 from requests.exceptions import ConnectionError
@@ -49,15 +51,6 @@ def slPrint(str):
 
 def Average(lst):
     return sum(lst) / len(lst)
-
-
-def rage():
-    for i in range(100):
-        print('A', end="A"),
-        time.sleep(1)
-
-
-
 
 def proxy(pType, url):
     global proxyList
@@ -159,12 +152,12 @@ def scrape(location, simp):
     if "https://" not in website:
         website = ("https://%s" % website)
     try:
-        page = requests.get(website, proxies=proxyList)
+        page = requests.get(website)
         soup = BeautifulSoup(page.content, "html.parser")
     except:
-        print(colored("An error has occured when trying to run 'scrape " +
-                      location + " " + simp + "': \nError 404, Location not found.\n", "red"))
-        main()
+        print(colored("\n An error has occured when trying to run 'scrape " +
+                      location + " " + simp + "': \n\tError 404, Location not found.\n", "red"))
+        return False
 
     title = soup.find("title").text
     description = soup.find(attrs={"name": "description"})
@@ -181,24 +174,24 @@ def scrape(location, simp):
     # drop blank lines
     text = '\n\n'.join(chunk for chunk in chunks if chunk)
     if simp == "simp":
-        print(colored('Title: ', "cyan"), colored('%s' % title, "white"))
+        print(colored('\n Title: ', "cyan"), colored('%s' % title, "white"))
         if description is None:
-            print(colored('Description: ', "blue"), colored('Failed', "white"))
+            print(colored(' Description: ', "blue"), colored('Failed', "white"))
         elif description is not None:
-            print(colored('Description: ', "blue"), colored(
+            print(colored(' Description: ', "blue"), colored(
                 '%s' % description["content"], "white"))
         print()
-        main()
+        return True
 
     elif simp == "text":
-        print(colored(text, "white"))
+        print(colored("\n " + text, "white"))
         print()
-        main()
+        return True
 
     elif simp == "raw":
-        print(colored(soup, "white"))
+        print(colored("\n " + soup, "white"))
         print()
-        main()
+        return True
 
 def geolookup(addr):
 
@@ -207,10 +200,7 @@ def geolookup(addr):
     request = json.loads(requests.get("https://tools.keycdn.com/geo.json?host=" + addr).content)
 
     if (request["description"] == "Hostname did not resolve any IP."):
-        replit.clear()
-        print(colored("Please enter a valid IP Address.", "red"))
-        time.sleep(2.25)
-        iplookup(addr)
+        return False
 
     returnData = request["data"]["geo"]
     dataColors = {"city": "green", "postal_code": "green","metro_code": "green","region": "green","country": "green","continent": "green","timezone": "green","asn": "green","isp": "green","dns": "green", "latitude": "blue","longitude": "cyan"}
@@ -263,28 +253,26 @@ def geolookup(addr):
 
     print (colored("\nReturned Geo-Data for host ", "white") + colored(returnData["host"], "cyan") + colored(".", "white"))
     print ()
-    print ("===================[I.K.T]===================")
-    print (colored("City: ", "white") + colored(returnData["city"], dataColors["city"]))
-    print (colored("Zip Code: ", "white") + colored(returnData["postal_code"], dataColors["postal_code"]))
-    print (colored("Metro Code: ", "white") + colored(returnData["metro_code"], dataColors["metro_code"]))
-    print (colored("Providence: ", "white") + colored(returnData["region_name"] + " (" + returnData["region_code"] + ") ", dataColors["region"]))
-    print (colored("Country: ", "white") + colored(returnData["country_name"] + " (" + returnData["country_code"] + ") ", dataColors["country"]))
-    print (colored("Continent: ", "white") + colored(returnData["continent_name"] + " (" + returnData["continent_code"] + ") ", dataColors["continent"]))
-    print (colored("Time-Zone: ", "white") + colored(returnData["timezone"].replace("_", " "), dataColors["timezone"]))
-    print (colored("Coordinates: ", "white") + colored(returnData["latitude"], dataColors["latitude"]) + colored(",", "white") + colored(returnData["longitude"], dataColors["longitude"]))
-    print ("====================[316]====================")
+    print (" ===================[I.K.T]===================")
+    print (colored(" City: ", "white") + colored(returnData["city"], dataColors["city"]))
+    print (colored(" Zip Code: ", "white") + colored(returnData["postal_code"], dataColors["postal_code"]))
+    print (colored(" Metro Code: ", "white") + colored(returnData["metro_code"], dataColors["metro_code"]))
+    print (colored(" Providence: ", "white") + colored(returnData["region_name"] + " (" + returnData["region_code"] + ") ", dataColors["region"]))
+    print (colored(" Country: ", "white") + colored(returnData["country_name"] + " (" + returnData["country_code"] + ") ", dataColors["country"]))
+    print (colored(" Continent: ", "white") + colored(returnData["continent_name"] + " (" + returnData["continent_code"] + ") ", dataColors["continent"]))
+    print (colored(" Time-Zone: ", "white") + colored(returnData["timezone"].replace("_", " "), dataColors["timezone"]))
+    print (colored(" Approx. Coords: ", "white") + colored(returnData["latitude"], dataColors["latitude"]) + colored(",", "white") + colored(returnData["longitude"], dataColors["longitude"]))
+    print (" ====================[316]====================")
     print ()
-    print (colored("Returned Misc Data for host ", "white") + colored(returnData["host"], "cyan") + colored(".", "white"))
+    print (colored(" Returned Misc Data for host ", "white") + colored(returnData["host"], "cyan") + colored(".", "white"))
     print ()
-    print ("===================[I.K.T]===================")
-    print (colored("ASN: ", "white") + colored(returnData["asn"], dataColors["asn"]))
-    print (colored("ISP: ", "white") + colored(returnData["isp"], dataColors["isp"]))
-    print (colored("DNS: ", "white") + colored(returnData["rdns"], dataColors["dns"]))
-    print ("====================[316]====================")
+    print (" ===================[I.K.T]===================")
+    print (colored(" ASN: ", "white") + colored(returnData["asn"], dataColors["asn"]))
+    print (colored(" ISP: ", "white") + colored(returnData["isp"], dataColors["isp"]))
+    print (colored(" DNS: ", "white") + colored(returnData["rdns"], dataColors["dns"]))
+    print (" ====================[316]====================")
 
-    input ("\nPress enter to continue.")
-
-    iplookup(addr)
+    return True
 
 def iplookup(addr):
 
@@ -326,7 +314,15 @@ def iplookup(addr):
             iplookup("")
         
         else:
-            geolookup(addr)
+            if geolookup(addr) == True:
+                input("Press enter to continue.")
+                iplookup(addr)
+
+            else:
+                replit.clear()
+                print(colored("Please enter a valid IP Address.", "red"))
+                time.sleep(2.25)
+                iplookup(addr)
 
     elif (param == 98):
         loadMenu("sniffing")
@@ -358,6 +354,71 @@ def init():
     print("\n")
     print(colored("             Visit https://www.316tb.net/ for more             \n", "cyan", attrs=["bold"]))
 
+def loadTerminal(flags = [""]):
+
+    try:
+
+        print(colored(" ┌─[ ", "blue") + colored("ImKindaToxic", "red", attrs=["bold"]) + colored(" ]──[", "blue") + colored("#", "green", attrs=["bold"]) + colored("]─[", "blue") + colored("console", "yellow", attrs=["bold"]) + colored(']', "blue"))
+
+        task = input(colored(" └─────► ", "blue"))
+
+        args = task.split(' ')
+        
+        if args[0] == "ipdox" or flags[0] == "ipdox":
+            try:
+
+                if len(args) < 2:
+                    print(colored("\nAn error has occured when running '" + ' '.join(args) + "':", "red"))
+                    print(colored("\tInvalid Syntax.\n", "red"))
+                    loadTerminal()
+
+
+                if geolookup(args[1]) == False:
+                    print(colored("\nAn error has occured when running '" + ' '.join(args) + "':", "red"))
+                    print(colored("\tPlease enter a valid IP Address.\n", "red")) 
+                    loadTerminal()
+                
+                else:
+                    print()
+                    loadTerminal()
+
+            except:
+                print(colored("\nAn error has occured when running '" + ' '.join(args) + "':", "red"))
+                print(colored("\tError Unknown.\n", "red"))
+                loadTerminal()
+
+        elif args[0] == "clear" or flags[0] == "ipdox":
+            replit.clear()
+            loadTerminal()
+
+        elif args[0] == "exit" or flags[0] == "ipdox":
+            
+            ecode = 0
+
+            if len(args) > 2:
+                ecode = args[1];
+
+            exit(ecode)
+
+        elif args[0] == "scrape" or flags[0] == "scrape":
+            if scrape(args[1], args[2]) == True:
+                loadTerminal()
+            
+            else:
+                loadTerminal()
+            
+        elif args[0] == "help" or flags[0] == "help":
+            print("")
+
+        else:
+            call(args)
+
+    except KeyboardInterrupt:
+        print(colored("\n\n\tPlease use ", "red") + colored("exit", "white") + colored(" to exit.\n", "red"))
+        loadTerminal()
+
+
+
 def loadMenu(menuName):
     init()
 
@@ -371,7 +432,8 @@ def loadMenu(menuName):
         print(colored("     2) Defense Menu", "blue"))
         print(colored("     3) Sniffing Menu", "blue"))
         print(colored("     4) Config", "blue"))
-        print(colored("\n     99) Exit", "blue"))
+        print(colored("\n     98) Console Mode", "blue"))
+        print(colored("     99) Exit", "blue"))
         print("\n")
 
     elif (menuName == "attacks"):
@@ -437,7 +499,11 @@ def main():
         loadMenu("config")
         main()
     
-    elif (task > 4 and task < 99 and current == "main"):
+    elif (task == 98 and current == "main"):
+        replit.clear()
+        loadTerminal()
+
+    elif (task > 4 and task < 98 and current == "main"):
         loadMenu(current)
         main()
 
@@ -523,6 +589,18 @@ def main():
 
     elif (task == 99):
         exit()
+
+runArgs = sys.argv
+
+if "-t" in runArgs or "--start-terminal" in runArgs:
+    init()
+    loadTerminal()
+
+if "-c" in runArgs or "--run-command" in runArgs:
+    init()
+    runArgs.remove(runArgs[0])
+    print(runArgs.remove(runArgs[0]))
+    input()
 
 loadMenu("main")
 main()
